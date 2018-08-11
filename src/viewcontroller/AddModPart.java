@@ -1,8 +1,5 @@
-package View_Controller;
+package viewcontroller;
 
-//import Model.Inhouse;
-//import Model.Outsourced;
-//import Model.Part;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

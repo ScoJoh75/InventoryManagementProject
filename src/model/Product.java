@@ -1,6 +1,5 @@
-package Model;
+package model;
 
-import javafx.beans.Observable;
 import javafx.collections.ObservableList;
 
 public class Product {

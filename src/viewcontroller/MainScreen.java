@@ -1,6 +1,8 @@
-package View_Controller;
+package viewcontroller;
 
-import Model.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import model.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -84,24 +86,35 @@ public class MainScreen implements Initializable {
     @FXML
     private TableColumn<Part, Integer> partInventoryLevelColumn;
     static boolean entered;
-    public Inventory inventory;
+    public static Inventory inventory;
+    //private ObservableList<Part> inventory = FXCollections.observableArrayList();
+
+    public Part part1;
+    public Part part2;
+    public Part part3;
+    public Part part4;
     /**
      * Initializes the controller class and sets up initial data
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         if(!entered){
-            inventory.addPart(new Inhouse(1, "Frame", 15, 5, 5, 10, 15));
-            inventory.addPart(new Inhouse(2, "Handlebars", 10.00, 5, 10, 25, 10));
-            inventory.addPart(new Outsourced(3, "Pedals", 2.50, 10, 10, 50, "Ryder Inc."));
-            inventory.addPart(new Outsourced(4, "HandleGrips", 1.45, 10, 10, 50, "CycleBiz Corp."));
+//            inventory.addPart(new Inhouse(1, "Frame", 15, 5, 5, 10, 15));
+//            inventory.addPart(new Inhouse(2, "Handlebars", 10.00, 5, 10, 25, 10));
+//            inventory.addPart(new Outsourced(3, "Pedals", 2.50, 10, 10, 50, "Ryder Inc."));
+//            inventory.addPart(new Outsourced(4, "HandleGrips", 1.45, 10, 10, 50, "CycleBiz Corp."));
+            part1 = new Inhouse(1, "Frame", 15, 5, 5, 10, 15);
+            part2 = new Inhouse(2, "Handlebars", 10.00, 5, 10, 25, 10);
+            part3 = new Outsourced(3, "Pedals", 2.50, 10, 10, 50, "Ryder Inc.");
+            part4 = new Outsourced(4, "HandleGrips", 1.45, 10, 10, 50, "CycleBiz Corp.");
+            inventory.addPart(part1);
             entered=true;
         }
-        partIDColumn.setCellValueFactory(new PropertyValueFactory<>("partID"));
-        partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        partInventoryLevelColumn.setCellValueFactory(new PropertyValueFactory<>("instock"));
-        partCostColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-        partTableView.setItems(inventory.allParts);
+//        partIDColumn.setCellValueFactory(new PropertyValueFactory<>("partID"));
+//        partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+//        partInventoryLevelColumn.setCellValueFactory(new PropertyValueFactory<>("instock"));
+//        partCostColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+//        partTableView.setItems(inventory.getAllParts());
     }
 
     @FXML

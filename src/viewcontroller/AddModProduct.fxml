@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.AddModProduct">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewcontroller.AddModProduct">
    <children>
       <AnchorPane layoutX="25.0" layoutY="25.0" prefHeight="550.0" prefWidth="750.0" style="-fx-border-color: black; -fx-border-radius: 10;">
          <children>

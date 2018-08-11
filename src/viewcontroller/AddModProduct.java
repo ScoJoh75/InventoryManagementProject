@@ -1,4 +1,4 @@
-package View_Controller;
+package viewcontroller;
 
 public class AddModProduct {
 }

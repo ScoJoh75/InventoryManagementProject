@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 public class Inhouse extends Part {
     private int machineID;
