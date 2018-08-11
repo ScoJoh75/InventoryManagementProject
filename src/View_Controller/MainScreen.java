@@ -1,11 +1,6 @@
 package View_Controller;
 
-import Model.Inhouse;
-import Model.ListOfParts;
-import Model.Outsourced;
-import Model.Part;
-import java.net.URL;
-import java.util.ResourceBundle;
+import Model.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +16,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class MainScreen implements Initializable {
 
@@ -31,10 +28,10 @@ public class MainScreen implements Initializable {
     private Button productSearch;
 
     @FXML
-    private TableColumn<?, ?> partNameColumn;
+    private TableColumn<Part, String> partNameColumn;
 
     @FXML
-    private TableColumn<?, ?> productIDColumn;
+    private TableColumn<Product, Integer> productIDColumn;
 
     @FXML
     private Button partDelete;
@@ -52,7 +49,7 @@ public class MainScreen implements Initializable {
     private Button mainExit;
 
     @FXML
-    private TableView<?> productTableView;
+    private TableView<Product> productTableView;
 
     @FXML
     private Button partAdd;
@@ -61,19 +58,19 @@ public class MainScreen implements Initializable {
     private Button partModify;
 
     @FXML
-    private TableColumn<?, ?> productCostColumn;
+    private TableColumn<Product, Double> productCostColumn;
 
     @FXML
     private TextField productSearchField;
 
     @FXML
-    private TableColumn<?, ?> productInventoryLevelColumn;
+    private TableColumn<Product, Integer> productInventoryLevelColumn;
 
     @FXML
-    private TableColumn<?, ?> productNameColumn;
+    private TableColumn<Product, String> productNameColumn;
 
     @FXML
-    private TableColumn<?, ?> partCostColumn;
+    private TableColumn<Part, Double> partCostColumn;
 
     @FXML
     private Button productDelete;
@@ -82,28 +79,29 @@ public class MainScreen implements Initializable {
     private Button partSearch;
 
     @FXML
-    private TableColumn<?, ?> partIDColumn;
+    private TableColumn<Part, Integer> partIDColumn;
 
     @FXML
-    private TableColumn<?, ?> partInventoryLevelColumn;
+    private TableColumn<Part, Integer> partInventoryLevelColumn;
     static boolean entered;
+    public Inventory inventory;
     /**
      * Initializes the controller class and sets up initial data
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         if(!entered){
-            ListOfParts.parts.add(new Inhouse(1, "Frame", 15, 5, 5, 10, 15));
-            ListOfParts.parts.add(new Inhouse(2, "Handlebars", 10.00, 5, 10, 25, 10));
-            ListOfParts.parts.add(new Outsourced(3, "Pedals", 2.50, 10, 10, 50, "Ryder Inc."));
-            ListOfParts.parts.add(new Outsourced(4, "HandleGrips", 1.45, 10, 10, 50, "CycleBiz Corp."));
+            inventory.addPart(new Inhouse(1, "Frame", 15, 5, 5, 10, 15));
+            inventory.addPart(new Inhouse(2, "Handlebars", 10.00, 5, 10, 25, 10));
+            inventory.addPart(new Outsourced(3, "Pedals", 2.50, 10, 10, 50, "Ryder Inc."));
+            inventory.addPart(new Outsourced(4, "HandleGrips", 1.45, 10, 10, 50, "CycleBiz Corp."));
             entered=true;
         }
         partIDColumn.setCellValueFactory(new PropertyValueFactory<>("partID"));
         partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         partInventoryLevelColumn.setCellValueFactory(new PropertyValueFactory<>("instock"));
         partCostColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-        partTableView.setItems(ListOfParts.parts);
+        partTableView.setItems(inventory.allParts);
     }
 
     @FXML
@@ -127,7 +125,7 @@ public class MainScreen implements Initializable {
             System.out.println("You are modifying a part!");
             AddModPart controller = loader.getController();
             Part part = partTableView.getSelectionModel().getSelectedItem();
-            controller.setPart(part);
+           // controller.setPart(part);
         } // end if
     } // end partAddModHandler
 

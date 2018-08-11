@@ -1,8 +1,8 @@
 package View_Controller;
 
-import Model.Inhouse;
-import Model.Outsourced;
-import Model.Part;
+//import Model.Inhouse;
+//import Model.Outsourced;
+//import Model.Part;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -62,7 +62,7 @@ public class AddModPart {
     private RadioButton radioOutsourced;
 
     private boolean partInHouse = true;
-    Part part;
+    //Part part;
 
     @FXML
     // This handler checks the status of the Radio buttons. It sets a variable to determine what type is being created.
@@ -78,20 +78,20 @@ public class AddModPart {
 
     @FXML
     void partSaveHandler(ActionEvent event) throws IOException {
-        int ID = Integer.parseInt(partID.getText());
-        String name = partName.getText();
-        double price = Double.parseDouble(partPrice.getText());
-        int stock = Integer.parseInt(partInventory.getText());
-        int min = Integer.parseInt(partMin.getText());
-        int max = Integer.parseInt(partMax.getText());
-
-        if(partInHouse){
-            int machineID = Integer.parseInt(partSourceName.getText());
-            Inhouse part = new Inhouse(ID, name, price, stock, min, max, machineID);
-        } else {
-            String companyName = partSourceName.getText();
-            Outsourced part = new Outsourced(ID, name, price, stock, min, max, companyName);
-        } // end if
+//        int ID = Integer.parseInt(partID.getText());
+//        String name = partName.getText();
+//        double price = Double.parseDouble(partPrice.getText());
+//        int stock = Integer.parseInt(partInventory.getText());
+//        int min = Integer.parseInt(partMin.getText());
+//        int max = Integer.parseInt(partMax.getText());
+//
+//        if(partInHouse){
+//            int machineID = Integer.parseInt(partSourceName.getText());
+//            //Inhouse part = new Inhouse(ID, name, price, stock, min, max, machineID);
+//        } else {
+//            String companyName = partSourceName.getText();
+//            //Outsourced part = new Outsourced(ID, name, price, stock, min, max, companyName);
+//        } // end if
 
         Stage stage;
         Parent root;
@@ -100,7 +100,7 @@ public class AddModPart {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        System.out.println("Your Part Was Saved!" + part.getName());
+        System.out.println("Your Part Was Saved!");
     } // end partSaveHandler
 
     @FXML
@@ -115,14 +115,14 @@ public class AddModPart {
         System.out.println("You Canceled Adding a Part.");
     } // end partCancelHandler
 
-    public void setPart(Part part) {
-        this.part = part;
-        partID.setText(Integer.toString(part.getPartID()));
-        partName.setText(part.getName());
-        partInventory.setText(Integer.toString(part.getInStock()));
-        partPrice.setText(Double.toString(part.getPrice()));
-        partSourceName.setText("IN PROGRESS");
-        partMin.setText(Integer.toString(part.getMin()));
-        partMax.setText(Integer.toString(part.getMax()));
-    }
+//    public void setPart(Part part) {
+//        this.part = part;
+//        partID.setText(Integer.toString(part.getPartID()));
+//        partName.setText(part.getName());
+//        partInventory.setText(Integer.toString(part.getInStock()));
+//        partPrice.setText(Double.toString(part.getPrice()));
+//        partSourceName.setText("IN PROGRESS");
+//        partMin.setText(Integer.toString(part.getMin()));
+//        partMax.setText(Integer.toString(part.getMax()));
+//    }
 }

@@ -5,7 +5,7 @@ import javafx.collections.ObservableList;
 
 public class Inventory {
     private ObservableList<Product> products;
-    private ObservableList<Part> allParts;
+    public ObservableList<Part> allParts;
 
     public void addProduct(Product product) {
         this.products.add(product);
