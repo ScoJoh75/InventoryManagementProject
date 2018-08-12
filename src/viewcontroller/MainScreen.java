@@ -87,8 +87,7 @@ public class MainScreen implements Initializable {
     private TableColumn<Part, Integer> partInventoryLevelColumn;
 
     static boolean entered;
-    public Inventory inventory = new Inventory();
-    //private ObservableList<Part> inventory = FXCollections.observableArrayList();
+    public static Inventory inventory = new Inventory();
 
     /**
      * Initializes the controller class and sets up initial data
@@ -108,6 +107,8 @@ public class MainScreen implements Initializable {
         partInventoryLevelColumn.setCellValueFactory(new PropertyValueFactory<>("inStock"));
         partCostColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         partTableView.setItems(inventory.getAllParts());
+        partTableView.getSelectionModel().select(0);
+        System.out.println("inventory.getAllParts().size()");
     }
 
     @FXML
@@ -131,7 +132,7 @@ public class MainScreen implements Initializable {
             System.out.println("You are modifying a part!");
             AddModPart controller = loader.getController();
             Part part = partTableView.getSelectionModel().getSelectedItem();
-           // controller.setPart(part);
+            controller.setPart(part);
         } // end if
     } // end partAddModHandler
 

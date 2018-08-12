@@ -31,12 +31,10 @@ public class Inventory {
     } // end updateProduct
 
     public void addPart(Part part) {
-        System.out.println("About to Add part to inventory.");
         try {
             this.allParts.add(part);
         } catch (NullPointerException e) {
             System.out.println("Add Failed, should see error.");
-            System.out.println(e);
         }
     } // end addPart
 
