@@ -12,7 +12,7 @@ public abstract class Part {
         return partID;
     } // end getPartID
 
-    public void setPartID(int partID) {
+    void setPartID(int partID) {
         this.partID = partID;
     } // end setPartID
 
@@ -20,7 +20,7 @@ public abstract class Part {
         return name;
     } // end getName
 
-    public void setName(String name) {
+    void setName(String name) {
         this.name = name;
     } // end setName
 
@@ -28,7 +28,7 @@ public abstract class Part {
         return price;
     } // end getPrice
 
-    public void setPrice(double price) {
+    void setPrice(double price) {
         this.price = price;
     } // end setPrice
 
@@ -36,7 +36,7 @@ public abstract class Part {
         return inStock;
     } // end getInStock
 
-    public void setInStock(int inStock) {
+    void setInStock(int inStock) {
         this.inStock = inStock;
     } // end setInStock
 
@@ -44,7 +44,7 @@ public abstract class Part {
         return min;
     } // end getMin
 
-    public void setMin(int min) {
+    void setMin(int min) {
         this.min = min;
     } // end setMin
 
@@ -52,7 +52,7 @@ public abstract class Part {
         return max;
     } // end getMax
 
-    public void setMax(int max) {
+    void setMax(int max) {
         this.max = max;
     } // end setMax
 } // end Part

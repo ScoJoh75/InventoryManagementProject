@@ -54,7 +54,7 @@ public class Inventory {
     } // end lookupPart
 
     public void updatePart(int partNum, Part part) {
-        allParts.set(partNum, part);
+        this.allParts.set(partNum, part);
     } // end updatePart
 
     public ObservableList<Part> getAllParts (){

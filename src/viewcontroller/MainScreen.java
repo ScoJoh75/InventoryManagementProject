@@ -1,7 +1,5 @@
 package viewcontroller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import model.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -86,8 +84,8 @@ public class MainScreen implements Initializable {
     @FXML
     private TableColumn<Part, Integer> partInventoryLevelColumn;
 
-    static boolean entered;
-    public static Inventory inventory = new Inventory();
+    private static boolean entered;
+    static Inventory inventory = new Inventory();
 
     /**
      * Initializes the controller class and sets up initial data
@@ -108,7 +106,6 @@ public class MainScreen implements Initializable {
         partCostColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         partTableView.setItems(inventory.getAllParts());
         partTableView.getSelectionModel().select(0);
-        System.out.println("inventory.getAllParts().size()");
     }
 
     @FXML
@@ -126,10 +123,7 @@ public class MainScreen implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        if(event.getSource()==partAdd){
-            System.out.println("You are adding a part!");
-        } else if(event.getSource()==partModify) {
-            System.out.println("You are modifying a part!");
+        if(event.getSource()==partModify) {
             AddModPart controller = loader.getController();
             Part part = partTableView.getSelectionModel().getSelectedItem();
             controller.setPart(part);
@@ -155,8 +149,7 @@ public class MainScreen implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        System.out.println("You are adding a PRODUCT!");
-    }
+    } // end productAddHandler
 
     @FXML
     void productModifyHandler(ActionEvent event) throws IOException{
@@ -167,8 +160,7 @@ public class MainScreen implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        System.out.println("You are Modifying a PRODUCT!");
-    }
+    } // end productModifyHandler
 
     @FXML
     void productDeleteHandler(ActionEvent event) {
