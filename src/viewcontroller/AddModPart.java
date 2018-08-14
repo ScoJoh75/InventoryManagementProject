@@ -63,7 +63,7 @@ public class AddModPart implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        partID.setText(String.valueOf(inventory.getAllParts().size() + 1));
+        partID.setText(String.valueOf(inventory.getIndex()));
     } // end initialize
 
     @FXML
@@ -88,6 +88,8 @@ public class AddModPart implements Initializable {
         int min = Integer.parseInt(partMin.getText());
         int max = Integer.parseInt(partMax.getText());
 
+        int index = inventory.getAllParts().indexOf(part);
+
         if(partInHouse){
             int machineID = Integer.parseInt(partSourceName.getText());
             part = new Inhouse(ID, name, price, stock, min, max, machineID);
@@ -97,7 +99,7 @@ public class AddModPart implements Initializable {
         } // end if
 
         if(modifying){
-            inventory.updatePart(ID - 1, part);
+            inventory.updatePart(index, part);
         } else {
             inventory.addPart(part);
         }
@@ -115,6 +117,7 @@ public class AddModPart implements Initializable {
     void partCancelHandler() throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Cancel Dialog!");
+        alert.setHeaderText(null);
         String s = "Click OK to cancel and return to Main Screen. \n" +
                 "Any information entered will be lost.";
         alert.setContentText(s);

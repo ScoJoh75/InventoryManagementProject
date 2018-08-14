@@ -43,7 +43,7 @@ public class Product {
         return productID;
     } // end getProductID
 
-    public void setProductID(int productID) {
+    private void setProductID(int productID) {
         this.productID = productID;
     } // end setProductID
 
@@ -51,7 +51,7 @@ public class Product {
         return name;
     } // end getName
 
-    public void setName(String name) {
+    private void setName(String name) {
         this.name = name;
     } // end setName
 
@@ -59,7 +59,7 @@ public class Product {
         return price;
     } // end getPrice
 
-    public void setPrice(double price) {
+    private void setPrice(double price) {
         this.price = price;
     } // end setPrice
 
@@ -67,7 +67,7 @@ public class Product {
         return inStock;
     } // end getInStock
 
-    public void setInStock(int inStock) {
+    private void setInStock(int inStock) {
         this.inStock = inStock;
     } // end setInstock
 
@@ -75,7 +75,7 @@ public class Product {
         return min;
     } // end getMin
 
-    public void setMin(int min) {
+    private void setMin(int min) {
         this.min = min;
     } // end setMin
 
@@ -83,7 +83,7 @@ public class Product {
         return max;
     } // end getMax
 
-    public void setMax(int max) {
+    private void setMax(int max) {
         this.max = max;
     } // end setMax
 } // end Product

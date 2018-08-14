@@ -11,13 +11,13 @@ public class Outsourced extends Part {
         setMin(min);
         setMax(max);
         setCompanyName(companyName);
-    }
+    } // end initializer
 
     public String getCompanyName() {
         return companyName;
     } // end getCompanyName
 
-    public void setCompanyName(String companyName) {
+    private void setCompanyName(String companyName) {
         this.companyName = companyName;
     } // end setCompanyName
 } // end Outsourced

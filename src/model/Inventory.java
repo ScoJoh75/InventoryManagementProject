@@ -7,6 +7,12 @@ public class Inventory {
     private ObservableList<Product> products = FXCollections.observableArrayList();
     private ObservableList<Part> allParts = FXCollections.observableArrayList();
 
+    private int index = 1;
+
+    public int getIndex() {
+        return index;
+    } // end index
+
     public void addProduct(Product product) {
         this.products.add(product);
     } // end addProduct
@@ -31,17 +37,14 @@ public class Inventory {
     } // end updateProduct
 
     public void addPart(Part part) {
-        try {
-            this.allParts.add(part);
-        } catch (NullPointerException e) {
-            System.out.println("Add Failed, should see error.");
-        }
+        this.allParts.add(part);
+        index++;
     } // end addPart
 
-    public boolean deletePart(Part partNum) {
+    public boolean deletePart(Part part) {
         boolean removed;
         try {
-            allParts.remove(partNum);
+            allParts.remove(part);
             removed = true;
         } catch (IndexOutOfBoundsException e) {
             removed = false;

@@ -1,5 +1,6 @@
 package viewcontroller;
 
+import javafx.scene.control.*;
 import model.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -8,15 +9,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MainScreen implements Initializable {
@@ -93,7 +91,6 @@ public class MainScreen implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         if(!entered){
-            System.out.println("MainScreen about to make inventory.addPart call.");
             inventory.addPart(new Inhouse(1, "Frame", 15, 5, 5, 10, 15));
             inventory.addPart(new Inhouse(2, "Handlebars", 10.00, 5, 10, 25, 10));
             inventory.addPart(new Outsourced(3, "Pedals", 2.50, 10, 10, 50, "Ryder Inc."));
@@ -106,12 +103,31 @@ public class MainScreen implements Initializable {
         partCostColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         partTableView.setItems(inventory.getAllParts());
         partTableView.getSelectionModel().select(0);
-    }
+    } // end initialize
 
     @FXML
-    void partSearchHandler(ActionEvent event) {
-        System.out.println("You are searching for: " + partSearchField.getText());
-    }
+    void partSearchHandler() {
+        boolean found = false;
+        for (Part part : inventory.getAllParts()) {
+            try {
+                if (Integer.parseInt(partSearchField.getText()) == part.getPartID()) {
+                    found = true;
+                    partTableView.getSelectionModel().select(part);
+                } // end if
+            } catch (NumberFormatException e) {
+                if (partSearchField.getText().toLowerCase().equals(part.getName().toLowerCase())) {
+                    found = true;
+                    partTableView.getSelectionModel().select(part);
+                } // end if
+            } // end try
+        } // end for
+
+        if (found) {
+            System.out.println("You Found it!");
+        } else {
+            System.out.println("You didn't find it!");
+        } // end if
+    } // end partSearchHandler
 
     @FXML
     void partAddModHandler(ActionEvent event) throws IOException {
@@ -131,8 +147,38 @@ public class MainScreen implements Initializable {
     } // end partAddModHandler
 
     @FXML
-    void partDeleteHandler(ActionEvent event) {
-        System.out.println("You are deleting a part!");
+    void partDeleteHandler() {
+        Part part = partTableView.getSelectionModel().getSelectedItem();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("WARNING!!!");
+        alert.setHeaderText(null);
+        String s = "WARNING!! You are about to delete: \n" +
+                "     Part: " + part.getPartID() + " " + part.getName() + "\n" +
+                "\n This action cannot be undone! \n Click OK to delete the selected part.";
+        alert.setContentText(s);
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            if(inventory.deletePart(part)) {
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Remove Successful.");
+                alert.setHeaderText(null);
+                s = "The Selected part has been successfully removed.";
+                alert.setContentText(s);
+
+                alert.showAndWait();
+            } else {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Remove Failed.");
+                alert.setHeaderText(null);
+                s = "The Selected part was NOT removed.";
+                alert.setContentText(s);
+
+                alert.showAndWait();
+            }
+        }
+
     }
 
     @FXML

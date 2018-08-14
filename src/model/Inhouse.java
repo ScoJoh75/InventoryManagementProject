@@ -11,7 +11,7 @@ public class Inhouse extends Part {
         setMin(min);
         setMax(max);
         setMachineID(machineID);
-    }
+    } // end initializer
 
     public int getMachineID() {
         return machineID;
