@@ -1,7 +1,5 @@
 package viewcontroller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -10,14 +8,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import model.Inhouse;
-import model.Outsourced;
 import model.Part;
 import model.Product;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -82,9 +77,9 @@ public class AddModProduct implements Initializable {
     @FXML
     private Button productSave;
 
-    private Product product;
+    private Product product = new Product();
     private boolean modifying;
-    private ObservableList<Part> partsList = FXCollections.observableArrayList();
+
     /**
      * Initializes the controller class and sets up initial data for the partTableView
      */
@@ -102,8 +97,7 @@ public class AddModProduct implements Initializable {
         associatedPartNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         associatedPartInventoryLevelColumn.setCellValueFactory(new PropertyValueFactory<>("inStock"));
         associatedPartCostColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-        associatedPartsTableView.setItems(partsList);
-        associatedPartsTableView.getSelectionModel().select(0);
+        associatedPartsTableView.setItems(product.getAssociatedParts());
     } // end initialize
 
     @FXML
@@ -140,28 +134,26 @@ public class AddModProduct implements Initializable {
     @FXML
     void productAddHandler() {
         Part part = partTableView.getSelectionModel().getSelectedItem();
-        partsList.add(part);
+        product.addAssociatedPart(part);
     } // end productAddHandler
 
     @FXML
     void productDeleteHandler() {
         Part part = associatedPartsTableView.getSelectionModel().getSelectedItem();
-        partsList.remove(part);
+        product.removeAssociatedPart(part);
     } // end productDeleteHandler
 
     @FXML
     void productSaveHandler() throws IOException{
         // TODO: Implement Error checking and handling for data captured from the form fields.
-        int ID = Integer.parseInt(productID.getText());
-        String name = productName.getText();
-        double price = Double.parseDouble(productPrice.getText());
-        int stock = Integer.parseInt(productInventory.getText());
-        int min = Integer.parseInt(productMin.getText());
-        int max = Integer.parseInt(productMax.getText());
-
         int index = inventory.getAllProducts().indexOf(product);
 
-        product = new Product(ID, name, price, stock, min, max);
+        product.setProductID(Integer.parseInt(productID.getText()));
+        product.setName(productName.getText());
+        product.setPrice(Double.parseDouble(productPrice.getText()));
+        product.setInStock(Integer.parseInt(productInventory.getText()));
+        product.setMin(Integer.parseInt(productMin.getText()));
+        product.setMax(Integer.parseInt(productMax.getText()));
 
         if(modifying){
             inventory.updateProduct(index, product);
@@ -208,7 +200,7 @@ public class AddModProduct implements Initializable {
      * 'modifying' variable which determines the behavior of the save button.
      * @param product the part selected in the part table when modify was clicked.
      */
-    public void setProduct(Product product) {
+    void setProduct(Product product) {
         this.product = product;
         modifying = true;
         productTitle.setText("Modify Product");
@@ -218,7 +210,8 @@ public class AddModProduct implements Initializable {
         productPrice.setText(Double.toString(product.getPrice()));
         productMin.setText(Integer.toString(product.getMin()));
         productMax.setText(Integer.toString(product.getMax()));
-        // TODO: Add setting associated parts to the associatedPartTableView
+        associatedPartsTableView.setItems(product.getAssociatedParts());
+        associatedPartsTableView.getSelectionModel().select(0);
     } // end setPart
 
 } // end AddModProduct

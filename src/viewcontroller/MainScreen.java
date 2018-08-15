@@ -23,16 +23,10 @@ public class MainScreen implements Initializable {
     private TextField partSearchField;
 
     @FXML
-    private Button productSearch;
-
-    @FXML
     private TableColumn<Part, String> partNameColumn;
 
     @FXML
     private TableColumn<Product, Integer> productIDColumn;
-
-    @FXML
-    private Button partDelete;
 
     @FXML
     private TableView<Part> partTableView;
@@ -42,9 +36,6 @@ public class MainScreen implements Initializable {
 
     @FXML
     private Button productModify;
-
-    @FXML
-    private Button mainExit;
 
     @FXML
     private TableView<Product> productTableView;
@@ -69,12 +60,6 @@ public class MainScreen implements Initializable {
 
     @FXML
     private TableColumn<Part, Double> partCostColumn;
-
-    @FXML
-    private Button productDelete;
-
-    @FXML
-    private Button partSearch;
 
     @FXML
     private TableColumn<Part, Integer> partIDColumn;
@@ -195,8 +180,34 @@ public class MainScreen implements Initializable {
     } // end partDeleteHandler
 
     @FXML
-    void productSearchHandler(ActionEvent event) {
-        System.out.println("You are searching for: " + productSearchField.getText());
+    void productSearchHandler() {
+        boolean found = false;
+        for (Product product : inventory.getAllProducts()) {
+            try {
+                if (Integer.parseInt(productSearchField.getText()) == product.getProductID()) {
+                    found = true;
+                    productTableView.getSelectionModel().select(product);
+                } // end if
+            } catch (NumberFormatException e) {
+                if (productSearchField.getText().toLowerCase().equals(product.getName().toLowerCase())) {
+                    found = true;
+                    productTableView.getSelectionModel().select(product);
+                } // end if
+            } // end try
+        } // end for
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Search Result");
+        alert.setHeaderText(null);
+        String result;
+        if (found) {
+            result = "The item you searched for has been selected!";
+        } else {
+            result = "The item you were searching for could not be located!";
+        } // end if
+        alert.setContentText(result);
+
+        alert.showAndWait();
     } // end productSearchHandler
 
     @FXML
@@ -217,12 +228,41 @@ public class MainScreen implements Initializable {
     } // end productAddHandler
 
     @FXML
-    void productDeleteHandler(ActionEvent event) {
-        System.out.println("You are deleting a PRODUCT!");
+    void productDeleteHandler() {
+        Product product = productTableView.getSelectionModel().getSelectedItem();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("WARNING!!!");
+        alert.setHeaderText(null);
+        String s = "WARNING!! You are about to delete: \n" +
+                "     Product: " + product.getProductID() + " " + product.getName() + "\n" +
+                "\n This action cannot be undone! \n Click OK to delete the selected part.";
+        alert.setContentText(s);
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            if(inventory.removeProduct(product)) {
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Remove Successful.");
+                alert.setHeaderText(null);
+                s = "The Selected product has been successfully removed.";
+                alert.setContentText(s);
+
+                alert.showAndWait();
+            } else {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Remove Failed.");
+                alert.setHeaderText(null);
+                s = "The Selected product was NOT removed.";
+                alert.setContentText(s);
+
+                alert.showAndWait();
+            } // end if
+        } // end if
     } // end productDeleteHandler
 
     @FXML
-    void mainExitHandler(ActionEvent event) {
+    void mainExitHandler() {
         Platform.exit();
     } // end mainExitHandler
 } // end MainScreen

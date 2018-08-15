@@ -17,7 +17,7 @@ public class Inventory {
 
     public void addProduct(Product product) {
         this.products.add(product);
-        partID++;
+        productID++;
     } // end addProduct
 
     public boolean removeProduct(Product product) {

@@ -1,15 +1,20 @@
 package model;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Product {
-    private ObservableList<Part> associatedParts;
+    private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
     private int productID;
     private String name;
     private double price;
     private int inStock;
     private int min;
     private int max;
+
+    public Product() {
+        this(-1, "placeHolder", -1.0, -1, -1, -1);
+    }
 
     public Product(int ProductID, String name, double price, int inStock, int min, int max) {
         setProductID(ProductID);
@@ -39,11 +44,13 @@ public class Product {
         return associatedParts.get(partNum);
     } // end lookupAssociatedPart
 
+    public ObservableList<Part> getAssociatedParts() { return associatedParts; } // end getAssociatedParts
+
     public int getProductID() {
         return productID;
     } // end getProductID
 
-    private void setProductID(int productID) {
+    public void setProductID(int productID) {
         this.productID = productID;
     } // end setProductID
 
@@ -51,7 +58,7 @@ public class Product {
         return name;
     } // end getName
 
-    private void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     } // end setName
 
@@ -59,7 +66,7 @@ public class Product {
         return price;
     } // end getPrice
 
-    private void setPrice(double price) {
+    public void setPrice(double price) {
         this.price = price;
     } // end setPrice
 
@@ -67,7 +74,7 @@ public class Product {
         return inStock;
     } // end getInStock
 
-    private void setInStock(int inStock) {
+    public void setInStock(int inStock) {
         this.inStock = inStock;
     } // end setInstock
 
@@ -75,7 +82,7 @@ public class Product {
         return min;
     } // end getMin
 
-    private void setMin(int min) {
+    public void setMin(int min) {
         this.min = min;
     } // end setMin
 
@@ -83,7 +90,7 @@ public class Product {
         return max;
     } // end getMax
 
-    private void setMax(int max) {
+    public void setMax(int max) {
         this.max = max;
     } // end setMax
 } // end Product
