@@ -103,6 +103,13 @@ public class MainScreen implements Initializable {
         partCostColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         partTableView.setItems(inventory.getAllParts());
         partTableView.getSelectionModel().select(0);
+
+        productIDColumn.setCellValueFactory(new PropertyValueFactory<>("productID"));
+        productNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        productInventoryLevelColumn.setCellValueFactory(new PropertyValueFactory<>("inStock"));
+        productCostColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        productTableView.setItems(inventory.getAllProducts());
+        productTableView.getSelectionModel().select(0);
     } // end initialize
 
     @FXML

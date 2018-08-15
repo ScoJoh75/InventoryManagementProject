@@ -150,8 +150,32 @@ public class AddModProduct implements Initializable {
     } // end productDeleteHandler
 
     @FXML
-    void productSaveHandler() {
+    void productSaveHandler() throws IOException{
+        // TODO: Implement Error checking and handling for data captured from the form fields.
+        int ID = Integer.parseInt(productID.getText());
+        String name = productName.getText();
+        double price = Double.parseDouble(productPrice.getText());
+        int stock = Integer.parseInt(productInventory.getText());
+        int min = Integer.parseInt(productMin.getText());
+        int max = Integer.parseInt(productMax.getText());
 
+        int index = inventory.getAllProducts().indexOf(product);
+
+        product = new Product(ID, name, price, stock, min, max);
+
+        if(modifying){
+            inventory.updateProduct(index, product);
+        } else {
+            inventory.addProduct(product);
+        }
+
+        Stage stage;
+        Parent root;
+        stage=(Stage) productSave.getScene().getWindow();
+        root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     } // end productSaveHandler
 
     @FXML
