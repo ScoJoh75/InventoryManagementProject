@@ -3,11 +3,11 @@ package model;
 public class Outsourced extends Part {
     private String companyName;
 
-    public Outsourced(int partID, String name, double price, int instock, int min, int max, String companyName) {
+    public Outsourced(int partID, String name, double price, int inStock, int min, int max, String companyName) {
         setPartID(partID);
         setName(name);
         setPrice(price);
-        setInStock(instock);
+        setInStock(inStock);
         setMin(min);
         setMax(max);
         setCompanyName(companyName);

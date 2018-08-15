@@ -1,7 +1,5 @@
 package viewcontroller;
 
-import javafx.scene.control.*;
-import model.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,8 +7,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import model.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -86,7 +86,7 @@ public class MainScreen implements Initializable {
     static Inventory inventory = new Inventory();
 
     /**
-     * Initializes the controller class and sets up initial data
+     * Initializes the controller class and sets up initial data for the partTableView
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -96,7 +96,7 @@ public class MainScreen implements Initializable {
             inventory.addPart(new Outsourced(3, "Pedals", 2.50, 10, 10, 50, "Ryder Inc."));
             inventory.addPart(new Outsourced(4, "HandleGrips", 1.45, 10, 10, 50, "CycleBiz Corp."));
             entered=true;
-        }
+        } // end if
         partIDColumn.setCellValueFactory(new PropertyValueFactory<>("partID"));
         partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         partInventoryLevelColumn.setCellValueFactory(new PropertyValueFactory<>("inStock"));
@@ -122,11 +122,18 @@ public class MainScreen implements Initializable {
             } // end try
         } // end for
 
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Search Result");
+        alert.setHeaderText(null);
+        String result;
         if (found) {
-            System.out.println("You Found it!");
+            result = "The item you searched for has been selected!";
         } else {
-            System.out.println("You didn't find it!");
+            result = "The item you were searching for could not be located!";
         } // end if
+        alert.setContentText(result);
+
+        alert.showAndWait();
     } // end partSearchHandler
 
     @FXML
@@ -176,46 +183,39 @@ public class MainScreen implements Initializable {
                 alert.setContentText(s);
 
                 alert.showAndWait();
-            }
-        }
-
-    }
+            } // end if
+        } // end if
+    } // end partDeleteHandler
 
     @FXML
     void productSearchHandler(ActionEvent event) {
         System.out.println("You are searching for: " + productSearchField.getText());
-    }
+    } // end productSearchHandler
 
     @FXML
-    void productAddHandler(ActionEvent event) throws IOException{
+    void productAddModHandler(ActionEvent event) throws IOException{
         Stage stage;
         Parent root;
         stage=(Stage) productAdd.getScene().getWindow();
-        root = FXMLLoader.load(getClass().getResource("AddModProduct.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("AddModProduct.fxml"));
+        root = loader.load();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+        if(event.getSource()==productModify) {
+            AddModProduct controller = loader.getController();
+            Product product = productTableView.getSelectionModel().getSelectedItem();
+            controller.setProduct(product);
+        } // end if
     } // end productAddHandler
-
-    @FXML
-    void productModifyHandler(ActionEvent event) throws IOException{
-        Stage stage;
-        Parent root;
-        stage=(Stage) productModify.getScene().getWindow();
-        root = FXMLLoader.load(getClass().getResource("AddModProduct.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    } // end productModifyHandler
 
     @FXML
     void productDeleteHandler(ActionEvent event) {
         System.out.println("You are deleting a PRODUCT!");
-    }
+    } // end productDeleteHandler
 
     @FXML
     void mainExitHandler(ActionEvent event) {
         Platform.exit();
-    }
-
-}
+    } // end mainExitHandler
+} // end MainScreen

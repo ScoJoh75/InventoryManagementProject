@@ -20,12 +20,6 @@
       </Label>
       <Button fx:id="partSearch" layoutX="281.0" layoutY="9.0" mnemonicParsing="false" onAction="#partSearchHandler"
               text="Search"/>
-      <Button fx:id="partAdd" layoutX="346.0" layoutY="205.0" mnemonicParsing="false" onAction="#partAddModHandler"
-              text="Add"/>
-      <Button fx:id="partModify" layoutX="402.0" layoutY="205.0" mnemonicParsing="false" onAction="#partAddModHandler"
-              text="Modify"/>
-      <Button fx:id="partDelete" layoutX="478.0" layoutY="205.0" mnemonicParsing="false" onAction="#partDeleteHandler"
-              text="Delete"/>
       <TextField fx:id="partSearchField" layoutX="354.0" layoutY="9.0"/>
       <TableView fx:id="partTableView" layoutX="14.0" layoutY="50.0" prefHeight="146.0" prefWidth="528.0">
          <columns>
@@ -35,6 +29,12 @@
             <TableColumn fx:id="partCostColumn" prefWidth="178.0" text="Price/Cost per Unit"/>
          </columns>
       </TableView>
+      <Button fx:id="partAdd" layoutX="346.0" layoutY="205.0" mnemonicParsing="false" onAction="#partAddModHandler"
+              text="Add"/>
+      <Button fx:id="partModify" layoutX="402.0" layoutY="205.0" mnemonicParsing="false" onAction="#partAddModHandler"
+              text="Modify"/>
+      <Button fx:id="partDelete" layoutX="478.0" layoutY="205.0" mnemonicParsing="false" onAction="#partDeleteHandler"
+              text="Delete"/>
    </AnchorPane>
    <AnchorPane layoutX="615.0" layoutY="75.0" prefHeight="250.0" prefWidth="555.0"
                style="-fx-border-color: black; -fx-border-radius: 10;">
@@ -45,12 +45,6 @@
       </Label>
       <Button fx:id="productSearch" layoutX="281.0" layoutY="9.0" mnemonicParsing="false"
               onAction="#productSearchHandler" text="Search"/>
-      <Button fx:id="productAdd" layoutX="346.0" layoutY="205.0" mnemonicParsing="false"
-              onAction="#productAddHandler" text="Add"/>
-      <Button fx:id="productModify" layoutX="403.0" layoutY="205.0" mnemonicParsing="false"
-              onAction="#productModifyHandler" text="Modify"/>
-      <Button fx:id="productDelete" layoutX="478.0" layoutY="205.0" mnemonicParsing="false"
-              onAction="#productDeleteHandler" text="Delete"/>
       <TextField fx:id="productSearchField" layoutX="354.0" layoutY="9.0"/>
       <TableView fx:id="productTableView" layoutX="14.0" layoutY="50.0" prefHeight="146.0" prefWidth="528.0">
          <columns>
@@ -60,6 +54,12 @@
             <TableColumn fx:id="productCostColumn" prefWidth="178.0" text="Price per Unit"/>
          </columns>
       </TableView>
+      <Button fx:id="productAdd" layoutX="346.0" layoutY="205.0" mnemonicParsing="false"
+              onAction="#productAddModHandler" text="Add"/>
+      <Button fx:id="productModify" layoutX="403.0" layoutY="205.0" mnemonicParsing="false"
+              onAction="#productAddModHandler" text="Modify"/>
+      <Button fx:id="productDelete" layoutX="478.0" layoutY="205.0" mnemonicParsing="false"
+              onAction="#productDeleteHandler" text="Delete"/>
    </AnchorPane>
    <Button fx:id="mainExit" layoutX="1070.0" layoutY="343.0" mnemonicParsing="false" onAction="#mainExitHandler"
            prefHeight="31.0" prefWidth="100.0" text="Exit"/>

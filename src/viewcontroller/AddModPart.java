@@ -1,12 +1,12 @@
 package viewcontroller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 import model.Inhouse;
 import model.Outsourced;
@@ -63,7 +63,7 @@ public class AddModPart implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        partID.setText(String.valueOf(inventory.getIndex()));
+        partID.setText(String.valueOf(inventory.getPartID()));
     } // end initialize
 
     @FXML

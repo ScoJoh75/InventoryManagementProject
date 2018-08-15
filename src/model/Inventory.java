@@ -7,20 +7,23 @@ public class Inventory {
     private ObservableList<Product> products = FXCollections.observableArrayList();
     private ObservableList<Part> allParts = FXCollections.observableArrayList();
 
-    private int index = 1;
+    private int partID = 1;
+    private int productID = 1;
 
-    public int getIndex() {
-        return index;
-    } // end index
+    public int getPartID() {
+        return partID;
+    } // end partID
+    public int getProductID() { return productID; } // end productID
 
     public void addProduct(Product product) {
         this.products.add(product);
+        partID++;
     } // end addProduct
 
-    public boolean removeProduct(int productNum) {
+    public boolean removeProduct(Product product) {
         boolean removed;
         try {
-            products.remove(productNum);
+            products.remove(product);
             removed = true;
         } catch (IndexOutOfBoundsException e) {
             removed = false;
@@ -38,7 +41,7 @@ public class Inventory {
 
     public void addPart(Part part) {
         this.allParts.add(part);
-        index++;
+        partID++;
     } // end addPart
 
     public boolean deletePart(Part part) {
@@ -62,6 +65,7 @@ public class Inventory {
 
     public ObservableList<Part> getAllParts (){
         return allParts;
-    }
+    } // end getAllParts
 
+    public ObservableList<Product> getAllProducts () { return products; } // end getAllProducts
 } // end Inventory

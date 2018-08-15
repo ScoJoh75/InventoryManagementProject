@@ -24,10 +24,10 @@ public class Product {
         this.associatedParts.add(part);
     } // end addAssociatedPart
 
-    public boolean removeAssociatedPart(int partNum) {
+    public boolean removeAssociatedPart(Part part) {
         boolean removed;
         try {
-            associatedParts.remove(partNum);
+            associatedParts.remove(part);
             removed = true;
         } catch (IndexOutOfBoundsException e) {
                 removed = false;
