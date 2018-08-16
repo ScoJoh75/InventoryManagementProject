@@ -60,6 +60,7 @@ public class AddModPart implements Initializable {
     private boolean partInHouse = true;
     private boolean modifying;
     private Part part;
+    int index;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -88,9 +89,7 @@ public class AddModPart implements Initializable {
         int min = Integer.parseInt(partMin.getText());
         int max = Integer.parseInt(partMax.getText());
 
-        int index = inventory.getAllParts().indexOf(part);
-
-        if(partInHouse){
+        if (partInHouse) {
             int machineID = Integer.parseInt(partSourceName.getText());
             part = new Inhouse(ID, name, price, stock, min, max, machineID);
         } else {
@@ -98,19 +97,21 @@ public class AddModPart implements Initializable {
             part = new Outsourced(ID, name, price, stock, min, max, companyName);
         } // end if
 
-        if(modifying){
-            inventory.updatePart(index, part);
-        } else {
-            inventory.addPart(part);
-        }
+        if (inventory.checkStock(min, max, stock)) {
+            if (modifying) {
+                inventory.updatePart(index, part);
+            } else {
+                inventory.addPart(part);
+            } // end if
 
-        Stage stage;
-        Parent root;
-        stage=(Stage) partSave.getScene().getWindow();
-        root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+            Stage stage;
+            Parent root;
+            stage = (Stage) partSave.getScene().getWindow();
+            root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } // end if
     } // end partSaveHandler
 
     @FXML
@@ -162,5 +163,6 @@ public class AddModPart implements Initializable {
         }
         partMin.setText(Integer.toString(part.getMin()));
         partMax.setText(Integer.toString(part.getMax()));
+        int index = inventory.getAllParts().indexOf(part);
     } // end setPart
 } // end AddModPart

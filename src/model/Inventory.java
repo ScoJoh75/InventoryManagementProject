@@ -2,6 +2,10 @@ package model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+
+import java.util.Optional;
 
 public class Inventory {
     private ObservableList<Product> products = FXCollections.observableArrayList();
@@ -68,4 +72,26 @@ public class Inventory {
     } // end getAllParts
 
     public ObservableList<Product> getAllProducts () { return products; } // end getAllProducts
+
+    public boolean checkStock(int min, int max, int stock) {
+        boolean valid = true;
+        if(min > max || max < min) {
+            valid = false;
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Inventory Min/Max Error!");
+            alert.setHeaderText(null);
+            String s = "Minimum stock must be less than the Maximum stock level!";
+            alert.setContentText(s);
+            alert.showAndWait();
+        } else if(stock < min || stock > max) {
+            valid = false;
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Current Inventory Error!");
+            alert.setHeaderText(null);
+            String s = "Your current inventory level must be between the minimum and maximum levels!";
+            alert.setContentText(s);
+            alert.showAndWait();
+        } // end if
+        return valid;
+    } // end checkStock
 } // end Inventory

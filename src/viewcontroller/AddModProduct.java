@@ -155,19 +155,25 @@ public class AddModProduct implements Initializable {
         product.setMin(Integer.parseInt(productMin.getText()));
         product.setMax(Integer.parseInt(productMax.getText()));
 
-        if(modifying){
-            inventory.updateProduct(index, product);
-        } else {
-            inventory.addProduct(product);
-        }
+        if (inventory.checkStock(
+                Integer.parseInt(productMin.getText()),
+                Integer.parseInt(productMax.getText()),
+                Integer.parseInt(productInventory.getText()))) {
 
-        Stage stage;
-        Parent root;
-        stage=(Stage) productSave.getScene().getWindow();
-        root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+            if (modifying) {
+                inventory.updateProduct(index, product);
+            } else {
+                inventory.addProduct(product);
+            } // end if
+
+            Stage stage;
+            Parent root;
+            stage = (Stage) productSave.getScene().getWindow();
+            root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } // end if
     } // end productSaveHandler
 
     @FXML
