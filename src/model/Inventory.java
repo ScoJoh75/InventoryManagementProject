@@ -91,4 +91,19 @@ public class Inventory {
         } // end if
         return valid;
     } // end checkStock
+
+    public boolean checkMinParts(ObservableList<Part> partList) {
+        boolean pass = true;
+        if(partList.size() < 1) {
+            pass = false;
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Parts Association Error!");
+            alert.setHeaderText(null);
+            String s = "A product must contain at least one part! \n" +
+                    "Please add at least one part and try saving again.";
+            alert.setContentText(s);
+            alert.showAndWait();
+        } // end if
+        return pass;
+    } // end checkMinParts
 } // end Inventory
