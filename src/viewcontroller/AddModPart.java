@@ -62,11 +62,20 @@ public class AddModPart implements Initializable {
     private Part part;
     private int index;
 
+    /**
+     * Initializes the controller class and sets up the AutoID for new parts.
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         partID.setText(String.valueOf(inventory.getPartID()));
     } // end initialize
 
+    /**
+     * radioSourceHandler detects when the user clicks on a Radio button to set the type of part they are creating.
+     * Based on the button clicked, the Label for the MachineID/CompanyName field is changed to match.
+     * It then sets a boolean that will determine, when save is clicked, which part type is created.
+     * @param event the fxid of the radio button clicked.
+     */
     @FXML
     // This handler checks the status of the Radio buttons. It sets a variable to determine what type is being created.
     void radioSourceHandler(ActionEvent event) {
@@ -79,6 +88,14 @@ public class AddModPart implements Initializable {
         } // end if
     } // end radioSourceHandler
 
+    /**
+     * partSaveHandler captures the data in the fields, and then, based on the radioButton selected
+     * will create a new part.
+     * On save it will check information entered as well as verify various constraints. If everything passes
+     * the part will be saved and the user returned to the MainScreen.
+     * If everything does not pass the checks, the user will be informed of the problems and then be allowed to correct
+     * the issues before trying to save again.
+     */
     @FXML
     void partSaveHandler() throws IOException {
         // TODO: Implement Error checking and handling for data captured from the form fields.
@@ -119,6 +136,11 @@ public class AddModPart implements Initializable {
         } // end if
     } // end partSaveHandler
 
+    /**
+     * partCancelHandler brings up a confirmation for the user to let them know that proceeded will result in the
+     * loss of any entered information. If the user proceeds they are returned to the MainScreen, otherwise they are
+     * returned to the AddModPart window to make additional changes and save their part.
+     */
     @FXML
     void partCancelHandler() throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
