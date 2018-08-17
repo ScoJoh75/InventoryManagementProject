@@ -71,24 +71,26 @@ public class MainScreen implements Initializable {
     static Inventory inventory = new Inventory();
 
     /**
-     * Initializes the controller class and sets up initial data for the partTableView
+     * Initializes the controller class and sets up initial data for the TableViews
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         if(!entered){
+            // These items are only added on first run and will not be run on subsequent returns to the MainScreen controller.
             inventory.addPart(new Inhouse(1, "Frame", 15, 5, 5, 10, 15));
             inventory.addPart(new Inhouse(2, "Handlebars", 10.00, 5, 10, 25, 10));
             inventory.addPart(new Outsourced(3, "Pedals", 2.50, 10, 10, 50, "Ryder Inc."));
             inventory.addPart(new Outsourced(4, "HandleGrips", 1.45, 10, 10, 50, "CycleBiz Corp."));
-            entered=true;
+            entered = true;
         } // end if
+        // Below are all the calls to create bindings for the table and columns for parts.
         partIDColumn.setCellValueFactory(new PropertyValueFactory<>("partID"));
         partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         partInventoryLevelColumn.setCellValueFactory(new PropertyValueFactory<>("inStock"));
         partCostColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         partTableView.setItems(inventory.getAllParts());
         partTableView.getSelectionModel().select(0);
-
+        // Below are all the calls to create binding for the table and columns for products.
         productIDColumn.setCellValueFactory(new PropertyValueFactory<>("productID"));
         productNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         productInventoryLevelColumn.setCellValueFactory(new PropertyValueFactory<>("inStock"));
@@ -97,6 +99,12 @@ public class MainScreen implements Initializable {
         productTableView.getSelectionModel().select(0);
     } // end initialize
 
+    /**
+     * partSearchHandler reads the information entered in the the partSearchField and then compares it to either
+     * the ID of the parts in the inventory list, or the Name of the parts in the list.
+     * If found it will alert the user and then select the part in the partTableView.
+     * If nothing is found, it will alert the user that if failed to locate an item.
+     */
     @FXML
     void partSearchHandler() {
         boolean found = false;
@@ -119,32 +127,46 @@ public class MainScreen implements Initializable {
         alert.setHeaderText(null);
         String result;
         if (found) {
-            result = "The item you searched for has been selected!";
+            result = "The Part you searched for has been selected for you!";
         } else {
-            result = "The item you were searching for could not be located!";
+            result = "The Part you were searching for could not be located! \n Please try your search again!";
         } // end if
         alert.setContentText(result);
 
         alert.showAndWait();
     } // end partSearchHandler
 
+    /**
+     * partAddModHandler initiates the swap from the MainScreen to the AddModPart screen.
+     * It takes button ActionEvent as a parameter in order to know if the user clicked
+     * the Add or Modify button.
+     * If the Modify button was clicked it will pass the selected part in the TableView
+     * to the setPart method of the AddModPart class.
+     * @param event the fxid of the button that was clicked.
+     */
     @FXML
     void partAddModHandler(ActionEvent event) throws IOException {
         Stage stage;
         Parent root;
-        stage=(Stage) partAdd.getScene().getWindow();
+        stage = (Stage) partAdd.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AddModPart.fxml"));
         root = loader.load();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        if(event.getSource()==partModify) {
+        if(event.getSource() == partModify) {
             AddModPart controller = loader.getController();
             Part part = partTableView.getSelectionModel().getSelectedItem();
             controller.setPart(part);
         } // end if
     } // end partAddModHandler
 
+    /**
+     * partDeleteHandler determines the part selected in the partTableView. Then it calls
+     * and alert to have the user verify if they truly wish to delete the part. If confirmed
+     * the selected part is passed into the deletePart method of inventory.
+     * Then a users is alerted to if the removal succeeded of failed.
+     */
     @FXML
     void partDeleteHandler() {
         Part part = partTableView.getSelectionModel().getSelectedItem();
@@ -179,6 +201,12 @@ public class MainScreen implements Initializable {
         } // end if
     } // end partDeleteHandler
 
+    /**
+     * productSearchHandler reads the information entered in the productSearchField and then compares it to either
+     * the ID of the products in the inventory list, or the Name of the products in the list.
+     * If found it will alert the user and then selects the part in the productTableView.
+     * If nothing is found, it will alert the user that if failed to locate an item.
+     */
     @FXML
     void productSearchHandler() {
         boolean found = false;
@@ -201,15 +229,23 @@ public class MainScreen implements Initializable {
         alert.setHeaderText(null);
         String result;
         if (found) {
-            result = "The item you searched for has been selected!";
+            result = "The Product you searched for has been selected for you!";
         } else {
-            result = "The item you were searching for could not be located!";
+            result = "The Product you were searching for could not be located! \nPlease try another search.";
         } // end if
         alert.setContentText(result);
 
         alert.showAndWait();
     } // end productSearchHandler
 
+    /**
+     * productAddModHandler initiates the swap from the MainScreen to the AddModProduct screen.
+     * It takes button ActionEvent as a parameter in order to know if the user clicked
+     * the Add or Modify button.
+     * If the Modify button was clicked it will pass the selected product in the TableView
+     * to the setProduct method of the AddModProduct class.
+     * @param event the fxid of the button that was clicked.
+     */
     @FXML
     void productAddModHandler(ActionEvent event) throws IOException{
         Stage stage;
@@ -220,13 +256,19 @@ public class MainScreen implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        if(event.getSource()==productModify) {
+        if(event.getSource() == productModify) {
             AddModProduct controller = loader.getController();
             Product product = productTableView.getSelectionModel().getSelectedItem();
             controller.setProduct(product);
         } // end if
     } // end productAddHandler
 
+    /**
+     * productDeleteHandler determines the product selected in the productTableView. Then it calls
+     * an alert to have the user verify if they truly wish to delete the product. If confirmed
+     * the selected product is passed into the deleteProduct method of inventory.
+     * Then a users is alerted to if the removal succeeded of failed.
+     */
     @FXML
     void productDeleteHandler() {
         Product product = productTableView.getSelectionModel().getSelectedItem();
@@ -261,6 +303,9 @@ public class MainScreen implements Initializable {
         } // end if
     } // end productDeleteHandler
 
+    /**
+     * mainExitHandler closes the application.
+     */
     @FXML
     void mainExitHandler() {
         Platform.exit();

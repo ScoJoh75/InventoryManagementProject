@@ -122,9 +122,9 @@ public class AddModProduct implements Initializable {
         alert.setHeaderText(null);
         String result;
         if (found) {
-            result = "The item you searched for has been selected!";
+            result = "The Part you searched for has been selected in the table!";
         } else {
-            result = "The item you were searching for could not be located!";
+            result = "The Part you were searching for could not be located! \nPlease try another search.";
         } // end if
         alert.setContentText(result);
 
@@ -155,6 +155,11 @@ public class AddModProduct implements Initializable {
         product.setMin(Integer.parseInt(productMin.getText()));
         product.setMax(Integer.parseInt(productMax.getText()));
 
+        /* If statement below runs the check to make sure min, max, and current stock levels meet system requirements
+            before going ahead and allowing the save/update to happen.
+            If successful, the save/update occurs and the user is returned to the MainScreen.
+            If unsuccessful, the user is returned to the AddModProduct screen so they can correct the issues.
+         */
         if (inventory.checkStock(
                 Integer.parseInt(productMin.getText()),
                 Integer.parseInt(productMax.getText()),
@@ -199,16 +204,17 @@ public class AddModProduct implements Initializable {
     } // end productCancelHandler
 
     /**
-     * setPart is called when a user decides to modify an existing part.
-     * The part selected in the part table will be passed into this method, that part
-     * will then be used to determine the status of the part type radio buttons, the
-     * values of the fields as they pertain to the part selected, and it will also set the
-     * 'modifying' variable which determines the behavior of the save button.
-     * @param product the part selected in the part table when modify was clicked.
+     * setProduct is called when a user decides to modify an existing product.
+     * The product selected in the product table will be passed into this method, that product
+     * will then be used to determine the values of the fields as they pertain to the product
+     * selected, and it will also set the 'modifying' variable which determines the behavior
+     * of the save button.
+     * @param product the product selected at the time the modify button was clicked.
      */
     void setProduct(Product product) {
-        this.product = product;
+        this.product = product; // Sets this classes product instance to the product being passed.
         modifying = true;
+        // Lines below set the on screen fields with the data in the passed product.
         productTitle.setText("Modify Product");
         productID.setText(Integer.toString(product.getProductID()));
         productName.setText(product.getName());
@@ -216,6 +222,7 @@ public class AddModProduct implements Initializable {
         productPrice.setText(Double.toString(product.getPrice()));
         productMin.setText(Integer.toString(product.getMin()));
         productMax.setText(Integer.toString(product.getMax()));
+        // Lines below update the bindings of the product table view to the passed products parts list.
         associatedPartsTableView.setItems(product.getAssociatedParts());
         associatedPartsTableView.getSelectionModel().select(0);
     } // end setPart

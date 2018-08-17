@@ -60,7 +60,7 @@ public class AddModPart implements Initializable {
     private boolean partInHouse = true;
     private boolean modifying;
     private Part part;
-    int index;
+    private int index;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -97,6 +97,11 @@ public class AddModPart implements Initializable {
             part = new Outsourced(ID, name, price, stock, min, max, companyName);
         } // end if
 
+        /* If statement below runs the check to make sure min, max, and current stock levels meet system requirements
+            before going ahead and allowing the save/update to happen.
+            If successful, the save/update occurs and the user is returned to the MainScreen.
+            If unsuccessful, the user is returned to the AddModPart screen so they can correct the issues.
+         */
         if (inventory.checkStock(min, max, stock)) {
             if (modifying) {
                 inventory.updatePart(index, part);
@@ -147,11 +152,15 @@ public class AddModPart implements Initializable {
     public void setPart(Part part) {
         this.part = part;
         modifying = true;
+        // Lines below set the on screen fields with the data in the passed product.
         partTitle.setText("Modify Part");
         partID.setText(Integer.toString(part.getPartID()));
         partName.setText(part.getName());
         partInventory.setText(Integer.toString(part.getInStock()));
         partPrice.setText(Double.toString(part.getPrice()));
+        /* if below will set the Radio buttons correctly based upon the part type passed.
+            It also sets the Appropriate field label and part type variable for saving.
+         */
         if(part instanceof Outsourced) {
             partSourceName.setText(((Outsourced) part).getCompanyName());
             radioOutsourced.setSelected(true);
@@ -163,6 +172,6 @@ public class AddModPart implements Initializable {
         }
         partMin.setText(Integer.toString(part.getMin()));
         partMax.setText(Integer.toString(part.getMax()));
-        int index = inventory.getAllParts().indexOf(part);
+        index = inventory.getAllParts().indexOf(part);
     } // end setPart
 } // end AddModPart
