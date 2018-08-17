@@ -81,7 +81,7 @@ public class AddModProduct implements Initializable {
     private boolean modifying;
 
     /**
-     * Initializes the controller class and sets up initial data for the partTableView
+     * Initializes the controller class and sets up initial data for the TableViews
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -100,6 +100,12 @@ public class AddModProduct implements Initializable {
         associatedPartsTableView.setItems(product.getAssociatedParts());
     } // end initialize
 
+    /**
+     * productSearchHandler reads the information entered in the the productSearchField and then compares it to either
+     * the ID of the parts in the inventory list, or the Name of the parts in the list.
+     * If found it will alert the user and then select the part in the partTableView.
+     * If nothing is found, it will alert the user that if failed to locate an item.
+     */
     @FXML
     void productSearchHandler() {
         boolean found = false;
@@ -131,18 +137,34 @@ public class AddModProduct implements Initializable {
         alert.showAndWait();
     } // end productSearchHandler
 
+    /**
+     * productAddHandler captures the part selected in the partTableView and passes it to the addAssociatedPart
+     * method of the product to be inserted into the associatedPartsList of the product.
+     */
     @FXML
     void productAddHandler() {
         Part part = partTableView.getSelectionModel().getSelectedItem();
         product.addAssociatedPart(part);
     } // end productAddHandler
 
+    /**
+     * productDeleteHandler captures the part selected in the associatedPartsTableView and passes it to the
+     * removeAssociatedPart method of the product to be removed from the associatedPartsList of the product.
+     */
     @FXML
     void productDeleteHandler() {
         Part part = associatedPartsTableView.getSelectionModel().getSelectedItem();
         product.removeAssociatedPart(part);
     } // end productDeleteHandler
 
+    /**
+     * productSaveHandler captures the data in the fields, and then calls the products set methods to add the
+     * information to the product.
+     * On save it will check information entered as well as verify various constraints. If everything passes
+     * the product will be saved and the user returned to the MainScreen.
+     * If everything does not pass the checks, the user will be informed of the problems and then be allowed to correct
+     * the issues before trying to save again.
+     */
     @FXML
     void productSaveHandler() throws IOException{
         // TODO: Implement Error checking and handling for data captured from the form fields.
@@ -181,6 +203,11 @@ public class AddModProduct implements Initializable {
         } // end if
     } // end productSaveHandler
 
+    /**
+     * productCancelHandler brings up a confirmation for the user to let them know that proceeded will result in the
+     * loss of any entered information. If the user proceeds they are returned to the MainScreen, otherwise they are
+     * returned to the AddModProduct window to make additional changes and save their product.
+     */
     @FXML
     void productCancelHandler() throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
