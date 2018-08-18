@@ -186,7 +186,7 @@ public class AddModProduct implements Initializable {
                 Integer.parseInt(productMin.getText()),
                 Integer.parseInt(productMax.getText()),
                 Integer.parseInt(productInventory.getText()))
-                && inventory.checkMinParts(product.getAssociatedParts())) {
+                && inventory.isValid(product.getAssociatedParts())) {
 
             if (modifying) {
                 inventory.updateProduct(index, product);

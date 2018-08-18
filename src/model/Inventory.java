@@ -22,13 +22,11 @@ public class Inventory {
     } // end addProduct
 
     public boolean removeProduct(Product product) {
-        boolean removed;
-        try {
-            products.remove(product);
-            removed = true;
-        } catch (IndexOutOfBoundsException e) {
-            removed = false;
-        }
+        boolean removed = false;
+            if(product.getAssociatedParts().size() < 1) {
+                products.remove(product);
+                removed = true;
+            } // end if
         return removed;
     } // end removeProduct
 
@@ -72,38 +70,44 @@ public class Inventory {
 
     public boolean checkStock(int min, int max, int stock) {
         boolean valid = true;
+        String s = "";
         if(min > max || max < min) {
             valid = false;
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Inventory Min/Max Error!");
-            alert.setHeaderText(null);
-            String s = "Minimum stock must be less than the Maximum stock level!";
-            alert.setContentText(s);
-            alert.showAndWait();
-        } else if(stock < min || stock > max) {
+            s += "Minimum stock must be less than the Maximum stock level!\n";
+        } // end min/max
+
+        if(stock < min || stock > max) {
             valid = false;
+            s += "Your current inventory level must be between the minimum and maximum levels!\n";
+        } // end stock check if
+
+        if(!valid) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Current Inventory Error!");
+            alert.setTitle("Inventory Error!");
             alert.setHeaderText(null);
-            String s = "Your current inventory level must be between the minimum and maximum levels!";
             alert.setContentText(s);
             alert.showAndWait();
         } // end if
         return valid;
     } // end checkStock
 
-    public boolean checkMinParts(ObservableList<Part> partList) {
-        boolean pass = true;
+    public boolean isValid(ObservableList<Part> partList) {
+        boolean valid = true;
+        String s = "";
         if(partList.size() < 1) {
-            pass = false;
+            valid = false;
+            s = "A product must contain at least one part! \n" +
+                    "Please add at least one part and try saving again.\n";
+        } // end if
+
+        if(!valid) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Parts Association Error!");
+            alert.setTitle("Product Information is Invalid!");
             alert.setHeaderText(null);
-            String s = "A product must contain at least one part! \n" +
-                    "Please add at least one part and try saving again.";
             alert.setContentText(s);
             alert.showAndWait();
-        } // end if
-        return pass;
-    } // end checkMinParts
+        } //end if
+
+        return valid;
+    } // end isValid
 } // end Inventory

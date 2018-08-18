@@ -295,7 +295,8 @@ public class MainScreen implements Initializable {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Remove Failed.");
                 alert.setHeaderText(null);
-                s = "The Selected product was NOT removed.";
+                s = "The Selected product has Parts associated with it.\n" +
+                "Products with associated Parts can not be deleted.";
                 alert.setContentText(s);
 
                 alert.showAndWait();
