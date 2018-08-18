@@ -176,7 +176,7 @@ public class AddModProduct implements Initializable {
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
                 stage.show();
-            }
+            } // end if
         } else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Product Delete?");
@@ -188,8 +188,8 @@ public class AddModProduct implements Initializable {
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 product.removeAssociatedPart(part);
-            }
-        }
+            } // end if
+        } // end if
     } // end productDeleteHandler
 
     /**
@@ -221,7 +221,9 @@ public class AddModProduct implements Initializable {
                 Integer.parseInt(productMin.getText()),
                 Integer.parseInt(productMax.getText()),
                 Integer.parseInt(productInventory.getText()))
-                && inventory.isValid(product.getAssociatedParts())) {
+                && inventory.isValid(
+                        product.getAssociatedParts(),
+                        Double.parseDouble(productPrice.getText()))) {
 
             if (modifying) {
                 inventory.updateProduct(index, product);

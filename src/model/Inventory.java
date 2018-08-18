@@ -78,7 +78,7 @@ public class Inventory {
 
         if(stock < min || stock > max) {
             valid = false;
-            s += "Your current inventory level must be between the minimum and maximum levels!\n";
+            s += "Your current inventory level must be between the minimum\n and maximum levels!\n";
         } // end stock check if
 
         if(!valid) {
@@ -91,14 +91,25 @@ public class Inventory {
         return valid;
     } // end checkStock
 
-    public boolean isValid(ObservableList<Part> partList) {
+    public boolean isValid(ObservableList<Part> partList, double price) {
         boolean valid = true;
         String s = "";
+        double totalPartCost = 0.00;
         if(partList.size() < 1) {
             valid = false;
             s = "A product must contain at least one part! \n" +
                     "Please add at least one part and try saving again.\n";
         } // end if
+
+        for (Part part  :partList) {
+            totalPartCost += part.getPrice();
+            if(price < totalPartCost) {
+                valid = false;
+                s = "The set price for this Product is less than the\n" +
+                        "cost of the parts that make up the Product.\n" +
+                        "Correct the Product price before saving.";
+            } // end if
+        } // end for
 
         if(!valid) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
