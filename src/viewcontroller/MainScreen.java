@@ -277,7 +277,7 @@ public class MainScreen implements Initializable {
         alert.setHeaderText(null);
         String s = "WARNING!! You are about to delete: \n" +
                 "     Product: " + product.getProductID() + " " + product.getName() + "\n" +
-                "\n This action cannot be undone! \n Click OK to delete the selected part.";
+                "\n This action cannot be undone! \n Click OK to delete the selected Product.";
         alert.setContentText(s);
 
         Optional<ButtonType> result = alert.showAndWait();

@@ -150,11 +150,46 @@ public class AddModProduct implements Initializable {
     /**
      * productDeleteHandler captures the part selected in the associatedPartsTableView and passes it to the
      * removeAssociatedPart method of the product to be removed from the associatedPartsList of the product.
+     * If the part is the last Part in the list, it gives the user the option to delete the product instead.
      */
     @FXML
-    void productDeleteHandler() {
+    void productDeleteHandler() throws IOException {
         Part part = associatedPartsTableView.getSelectionModel().getSelectedItem();
-        product.removeAssociatedPart(part);
+        if(product.getAssociatedParts().size() == 1) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Product Delete?");
+            alert.setHeaderText(null);
+            String s = "You are about to remove the last part from this product.\n" +
+                    "Products must contain at least one part!\n" +
+                    "Click OK if you want to delete this Product!\n";
+            alert.setContentText(s);
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                product.removeAssociatedPart(part);
+                inventory.removeProduct(product);
+                Stage stage;
+                Parent root;
+                stage = (Stage) productSave.getScene().getWindow();
+                root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Product Delete?");
+            alert.setHeaderText(null);
+            String s = "Are you sure you want to remove this part?";
+            alert.setContentText(s);
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                product.removeAssociatedPart(part);
+            }
+        }
     } // end productDeleteHandler
 
     /**
