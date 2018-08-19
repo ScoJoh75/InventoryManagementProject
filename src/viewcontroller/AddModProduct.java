@@ -98,6 +98,8 @@ public class AddModProduct implements Initializable {
         associatedPartInventoryLevelColumn.setCellValueFactory(new PropertyValueFactory<>("inStock"));
         associatedPartCostColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         associatedPartsTableView.setItems(product.getAssociatedParts());
+
+        productInventory.setText(Integer.toString(0));
     } // end initialize
 
     /**
@@ -193,7 +195,7 @@ public class AddModProduct implements Initializable {
     } // end productDeleteHandler
 
     /**
-     * productSaveHandler captures the data in the fields, and then calls the products set methods to add the
+     * productSaveHandler captures the data in the fields, and then attempts to call the products set methods to add the
      * information to the product.
      * On save it will check information entered as well as verify various constraints. If everything passes
      * the product will be saved and the user returned to the MainScreen.
@@ -202,42 +204,77 @@ public class AddModProduct implements Initializable {
      */
     @FXML
     void productSaveHandler() throws IOException{
-        // TODO: Implement Error checking and handling for data captured from the form fields.
         int index = inventory.getAllProducts().indexOf(product);
-
+        String s = "";
+        boolean verified = true;
         product.setProductID(Integer.parseInt(productID.getText()));
-        product.setName(productName.getText());
-        product.setPrice(Double.parseDouble(productPrice.getText()));
-        product.setInStock(Integer.parseInt(productInventory.getText()));
-        product.setMin(Integer.parseInt(productMin.getText()));
-        product.setMax(Integer.parseInt(productMax.getText()));
 
+        if(productName.getText().trim().equals("")) {
+            s += "You must enter a Product Name. Please enter a name.\n";
+            verified = false;
+        } else {
+            product.setName(productName.getText());
+        } // end if
+        try {
+            product.setPrice(Double.parseDouble(productPrice.getText()));
+        } catch (NumberFormatException e) {
+            s += "Your price must be a number! Please correct your price.\n";
+            verified = false;
+        } // end try/catch
+        try {
+            product.setInStock(Integer.parseInt(productInventory.getText()));
+        } catch (NumberFormatException e) {
+            s +=  "Your inventory level must be a number 0 or greater.\n";
+            verified = false;
+        } // end try/catch
+        try {
+            product.setMin(Integer.parseInt(productMin.getText()));
+        } catch (NumberFormatException e) {
+            s += "Minimum inventory level must be a number 0 or greater.\n";
+            verified = false;
+        } // end try/catch
+        try {
+            product.setMax(Integer.parseInt(productMax.getText()));
+        } catch (NumberFormatException e) {
+            s += "Maximum inventory level must be a number 0 or greater";
+            verified = false;
+        } // end try/catch
+
+        if(!verified) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Data Entry Error!");
+            alert.setHeaderText(null);
+            alert.setContentText(s);
+            alert.showAndWait();
+        }
         /* If statement below runs the check to make sure min, max, and current stock levels meet system requirements
             before going ahead and allowing the save/update to happen.
             If successful, the save/update occurs and the user is returned to the MainScreen.
             If unsuccessful, the user is returned to the AddModProduct screen so they can correct the issues.
          */
-        if (inventory.checkStock(
-                Integer.parseInt(productMin.getText()),
-                Integer.parseInt(productMax.getText()),
-                Integer.parseInt(productInventory.getText()))
-                && inventory.isValid(
-                        product.getAssociatedParts(),
-                        Double.parseDouble(productPrice.getText()))) {
+        if(verified) {
+            if (inventory.checkStock(
+                    Integer.parseInt(productMin.getText()),
+                    Integer.parseInt(productMax.getText()),
+                    Integer.parseInt(productInventory.getText()))
+                    && inventory.isValid(
+                    product.getAssociatedParts(),
+                    Double.parseDouble(productPrice.getText()))) {
 
-            if (modifying) {
-                inventory.updateProduct(index, product);
-            } else {
-                inventory.addProduct(product);
+                if (modifying) {
+                    inventory.updateProduct(index, product);
+                } else {
+                    inventory.addProduct(product);
+                } // end if
+
+                Stage stage;
+                Parent root;
+                stage = (Stage) productSave.getScene().getWindow();
+                root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
             } // end if
-
-            Stage stage;
-            Parent root;
-            stage = (Stage) productSave.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
         } // end if
     } // end productSaveHandler
 
@@ -291,5 +328,4 @@ public class AddModProduct implements Initializable {
         associatedPartsTableView.setItems(product.getAssociatedParts());
         associatedPartsTableView.getSelectionModel().select(0);
     } // end setPart
-
 } // end AddModProduct

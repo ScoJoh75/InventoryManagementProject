@@ -98,41 +98,96 @@ public class AddModPart implements Initializable {
      */
     @FXML
     void partSaveHandler() throws IOException {
-        // TODO: Implement Error checking and handling for data captured from the form fields.
-        int ID = Integer.parseInt(partID.getText());
-        String name = partName.getText();
-        double price = Double.parseDouble(partPrice.getText());
-        int stock = Integer.parseInt(partInventory.getText());
-        int min = Integer.parseInt(partMin.getText());
-        int max = Integer.parseInt(partMax.getText());
+        String s = "";
+        boolean verified = true;
 
-        if (partInHouse) {
-            int machineID = Integer.parseInt(partSourceName.getText());
-            part = new Inhouse(ID, name, price, stock, min, max, machineID);
+        int ID = Integer.parseInt(partID.getText());
+        String name = "";
+        double price = 0;
+        int stock = 0;
+        int min = 0;
+        int max = 0;
+        int machineID = 0;
+        String companyName = "";
+
+        if(partName.getText().trim().equals("")) {
+            s += "You must enter a Part Name. Please enter a name.\n";
+            verified = false;
         } else {
-            String companyName = partSourceName.getText();
-            part = new Outsourced(ID, name, price, stock, min, max, companyName);
+            name = partName.getText();
         } // end if
+        try {
+            price = Double.parseDouble(partPrice.getText());
+        } catch (NumberFormatException e) {
+            s += "Your price must be a number! Please correct your price.\n";
+            verified = false;
+        } // end try/catch
+        try {
+            stock = Integer.parseInt(partInventory.getText());
+        } catch (NumberFormatException e) {
+            s +=  "Your inventory level must be a number 0 or greater.\n";
+            verified = false;
+        } // end try/catch
+        try {
+            min = Integer.parseInt(partMin.getText());
+        } catch (NumberFormatException e) {
+            s += "Minimum inventory level must be a number 0 or greater.\n";
+            verified = false;
+        } // end try/catch
+        try {
+            max = Integer.parseInt(partMax.getText());
+        } catch (NumberFormatException e) {
+            s += "Maximum inventory level must be a number 0 or greater";
+            verified = false;
+        } // end try/catch
+        if(partInHouse) {
+            try {
+                machineID = Integer.parseInt(partSourceName.getText());
+            } catch (NumberFormatException e) {
+                s += "Machine IDs must be the number which identifies the Machine the creates the Part.";
+            } // end try/catch
+        } else {
+            if(partSourceName.getText().trim().equals("")) {
+                s += "You must enter the Company name from whom the part is purchased. Please enter a name.\n";
+                verified = false;
+            } else {
+                companyName = partSourceName.getText();
+            } // end if
+        }
+
+        if(!verified) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Part Data Entry Error!");
+            alert.setHeaderText(null);
+            alert.setContentText(s);
+            alert.showAndWait();
+        } else {
+            if (partInHouse) {
+                part = new Inhouse(ID, name, price, stock, min, max, machineID);
+            } else {
+                part = new Outsourced(ID, name, price, stock, min, max, companyName);
+            } // end if
 
         /* If statement below runs the check to make sure min, max, and current stock levels meet system requirements
             before going ahead and allowing the save/update to happen.
             If successful, the save/update occurs and the user is returned to the MainScreen.
             If unsuccessful, the user is returned to the AddModPart screen so they can correct the issues.
          */
-        if (inventory.checkStock(min, max, stock)) {
-            if (modifying) {
-                inventory.updatePart(index, part);
-            } else {
-                inventory.addPart(part);
-            } // end if
+            if (inventory.checkStock(min, max, stock)) {
+                if (modifying) {
+                    inventory.updatePart(index, part);
+                } else {
+                    inventory.addPart(part);
+                } // end if
 
-            Stage stage;
-            Parent root;
-            stage = (Stage) partSave.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+                Stage stage;
+                Parent root;
+                stage = (Stage) partSave.getScene().getWindow();
+                root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            } // end if
         } // end if
     } // end partSaveHandler
 

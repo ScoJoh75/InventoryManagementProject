@@ -71,9 +71,10 @@ public class Inventory {
     public boolean checkStock(int min, int max, int stock) {
         boolean valid = true;
         String s = "";
-        if(min > max || max < min) {
+        if(min > max || max < min || min < 0 || max < 0) {
             valid = false;
-            s += "Minimum stock must be less than the Maximum stock level!\n";
+            s += "Minimum stock must be less than the Maximum stock level!\n" +
+            "Stock levels must also be greater than 0";
         } // end min/max
 
         if(stock < min || stock > max) {
@@ -101,12 +102,12 @@ public class Inventory {
                     "Please add at least one part and try saving again.\n";
         } // end if
 
-        for (Part part  :partList) {
+        for (Part part : partList) {
             totalPartCost += part.getPrice();
             if(price < totalPartCost) {
                 valid = false;
-                s = "The set price for this Product is less than the\n" +
-                        "cost of the parts that make up the Product.\n" +
+                s = "The price for this Product is less than the\n" +
+                        "combined cost of the parts that make up the Product.\n" +
                         "Correct the Product price before saving.";
             } // end if
         } // end for

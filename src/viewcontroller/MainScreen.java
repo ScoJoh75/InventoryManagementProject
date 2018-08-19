@@ -154,7 +154,7 @@ public class MainScreen implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        if(event.getSource() == partModify) {
+        if(event.getSource() == partModify && inventory.getAllParts().size() > 0) {
             AddModPart controller = loader.getController();
             Part part = partTableView.getSelectionModel().getSelectedItem();
             controller.setPart(part);
@@ -169,34 +169,36 @@ public class MainScreen implements Initializable {
      */
     @FXML
     void partDeleteHandler() {
-        Part part = partTableView.getSelectionModel().getSelectedItem();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("WARNING!!!");
-        alert.setHeaderText(null);
-        String s = "WARNING!! You are about to delete: \n" +
-                "     Part: " + part.getPartID() + " " + part.getName() + "\n" +
-                "\n This action cannot be undone! \n Click OK to delete the selected part.";
-        alert.setContentText(s);
+        if(inventory.getAllParts().size() > 0) {
+            Part part = partTableView.getSelectionModel().getSelectedItem();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("WARNING!!!");
+            alert.setHeaderText(null);
+            String s = "WARNING!! You are about to delete: \n" +
+                    "     Part: " + part.getPartID() + " " + part.getName() + "\n" +
+                    "\n This action cannot be undone! \n Click OK to delete the selected part.";
+            alert.setContentText(s);
 
-        Optional<ButtonType> result = alert.showAndWait();
+            Optional<ButtonType> result = alert.showAndWait();
 
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            if(inventory.deletePart(part)) {
-                alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Remove Successful.");
-                alert.setHeaderText(null);
-                s = "The Selected part has been successfully removed.";
-                alert.setContentText(s);
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                if (inventory.deletePart(part)) {
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Remove Successful.");
+                    alert.setHeaderText(null);
+                    s = "The Selected part has been successfully removed.";
+                    alert.setContentText(s);
 
-                alert.showAndWait();
-            } else {
-                alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Remove Failed.");
-                alert.setHeaderText(null);
-                s = "The Selected part was NOT removed.";
-                alert.setContentText(s);
+                    alert.showAndWait();
+                } else {
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Remove Failed.");
+                    alert.setHeaderText(null);
+                    s = "The Selected part was NOT removed.";
+                    alert.setContentText(s);
 
-                alert.showAndWait();
+                    alert.showAndWait();
+                } // end if
             } // end if
         } // end if
     } // end partDeleteHandler
@@ -256,7 +258,7 @@ public class MainScreen implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        if(event.getSource() == productModify) {
+        if(event.getSource() == productModify && inventory.getAllProducts().size() > 0) {
             AddModProduct controller = loader.getController();
             Product product = productTableView.getSelectionModel().getSelectedItem();
             controller.setProduct(product);
@@ -271,35 +273,37 @@ public class MainScreen implements Initializable {
      */
     @FXML
     void productDeleteHandler() {
-        Product product = productTableView.getSelectionModel().getSelectedItem();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("WARNING!!!");
-        alert.setHeaderText(null);
-        String s = "WARNING!! You are about to delete: \n" +
-                "     Product: " + product.getProductID() + " " + product.getName() + "\n" +
-                "\n This action cannot be undone! \n Click OK to delete the selected Product.";
-        alert.setContentText(s);
+        if(inventory.getAllProducts().size() > 0) {
+            Product product = productTableView.getSelectionModel().getSelectedItem();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("WARNING!!!");
+            alert.setHeaderText(null);
+            String s = "WARNING!! You are about to delete: \n" +
+                    "     Product: " + product.getProductID() + " " + product.getName() + "\n" +
+                    "\n This action cannot be undone! \n Click OK to delete the selected Product.";
+            alert.setContentText(s);
 
-        Optional<ButtonType> result = alert.showAndWait();
+            Optional<ButtonType> result = alert.showAndWait();
 
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            if(inventory.removeProduct(product)) {
-                alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Remove Successful.");
-                alert.setHeaderText(null);
-                s = "The Selected product has been successfully removed.";
-                alert.setContentText(s);
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                if (inventory.removeProduct(product)) {
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Remove Successful.");
+                    alert.setHeaderText(null);
+                    s = "The Selected product has been successfully removed.";
+                    alert.setContentText(s);
 
-                alert.showAndWait();
-            } else {
-                alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Remove Failed.");
-                alert.setHeaderText(null);
-                s = "The Selected product has Parts associated with it.\n" +
-                "Products with associated Parts can not be deleted.";
-                alert.setContentText(s);
+                    alert.showAndWait();
+                } else {
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Remove Failed.");
+                    alert.setHeaderText(null);
+                    s = "The Selected product has Parts associated with it.\n" +
+                            "Products with associated Parts can not be deleted.";
+                    alert.setContentText(s);
 
-                alert.showAndWait();
+                    alert.showAndWait();
+                } // end if
             } // end if
         } // end if
     } // end productDeleteHandler
